@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import Header from '../../components/header/header';
 
-function NotFound() {
+function NotFoundScreen() {
   return (
     <>
       <Header />
@@ -15,4 +15,4 @@ function NotFound() {
   );
 }
 
-export default NotFound;
+export default NotFoundScreen;
