@@ -5,12 +5,12 @@ import LoginScreen from '../../pages/login-screen/login-screen';
 import RoomScreen from '../../pages/room-screen/room-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 
-import { Hotel } from '../../mocks/offer';
+import { Room } from '../../types/types';
 import { AppRoute } from '../../consts';
 
 type AppProps = {
   offerCount: number;
-  mockHotels: Hotel[];
+  mockHotels: Room[];
 }
 
 function App(props: AppProps): JSX.Element {
@@ -18,7 +18,7 @@ function App(props: AppProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={AppRoute.Root} element={ <MainScreen offerCount={offerCount} hotels={mockHotels} /> } />
+        <Route path={AppRoute.Root} element={ <MainScreen offerCount={offerCount} rooms={mockHotels} /> } />
         <Route path={AppRoute.Login} element={ <LoginScreen />} />
         <Route path={`${AppRoute.Room}/:id`} element={ <RoomScreen /> } />
         <Route path='*' element={ <NotFoundScreen /> } />

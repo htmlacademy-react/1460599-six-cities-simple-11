@@ -1,22 +1,22 @@
 import { useState } from 'react';
-import { Hotel } from '../../mocks/offer';
+import { Room } from '../../types/types';
 import PlaceCard from '../place-card/place-card';
 
 type PlaceCardsListProps = {
-  hotels: Hotel[];
+  rooms: Room[];
 }
 
 function PlaceCardsList(props: PlaceCardsListProps) {
-  const { hotels } = props;
+  const { rooms } = props;
   const [ , setActiveCard ] = useState<number>();
 
   return (
     <div className="cities__places-list places__list tabs__content">
-      {hotels.map((hotel) => (
+      {rooms.map((room) => (
         <PlaceCard
-          key={hotel.id}
-          hotel={hotel}
-          onPlaceCardMouseOver={() => {setActiveCard(hotel.id);}}
+          key={room.id}
+          room={room}
+          onPlaceCardMouseOver={() => {setActiveCard(room.id);}}
         />
       )
       )}

@@ -1,14 +1,14 @@
 import Header from '../../components/header/header';
 import PlaceCardList from '../../components/place-cards-list/place-cards-list';
-import { Hotel } from '../../mocks/offer';
+import { Room } from '../../types/types';
 
 type MainScreenProps = {
   offerCount: number;
-  hotels: Hotel[];
+  rooms: Room[];
 }
 
 function MainScreen(props: MainScreenProps) {
-  const { offerCount, hotels } = props;
+  const { offerCount, rooms } = props;
   return (
     <main className="page__main page__main--index">
 
@@ -71,7 +71,7 @@ function MainScreen(props: MainScreenProps) {
                 <li className="places__option" tabIndex={0}>Top rated first</li>
               </ul>
             </form>
-            <PlaceCardList hotels={hotels} />
+            <PlaceCardList rooms={rooms} />
           </section>
           <div className="cities__right-section">
             <section className="cities__map map"></section>
