@@ -1,11 +1,13 @@
+export type Location = {
+  latitude: number;
+  longitude: number;
+  zoom: number;
+};
+
 export type Room = {
   bedrooms: number;
   city: {
-    location: {
-      latitude: number;
-      longitude: number;
-      zoom: number;
-    };
+    location: Location;
     name: string;
   };
   description: string;
@@ -19,11 +21,7 @@ export type Room = {
   id: number;
   images: string[];
   isPremium: boolean;
-  location: {
-    latitude: number;
-    longitude: number;
-    zoom: number;
-  };
+  location: Location;
   maxAdults: number;
   previewImage: string;
   price: number;

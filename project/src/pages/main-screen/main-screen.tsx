@@ -1,6 +1,8 @@
 import Header from '../../components/header/header';
 import PlaceCardList from '../../components/place-cards-list/place-cards-list';
-import { Room } from '../../types/types';
+import Map from '../../components/map/map';
+
+import { Room, Location } from '../../types/types';
 
 type MainScreenProps = {
   offerCount: number;
@@ -9,6 +11,10 @@ type MainScreenProps = {
 
 function MainScreen(props: MainScreenProps) {
   const { offerCount, rooms } = props;
+
+  const tempPoints : Location[] = [];
+  rooms.forEach((room) => tempPoints.push(room.location));
+
   return (
     <main className="page__main page__main--index">
 
@@ -74,7 +80,9 @@ function MainScreen(props: MainScreenProps) {
             <PlaceCardList rooms={rooms} />
           </section>
           <div className="cities__right-section">
-            <section className="cities__map map"></section>
+            <section className="cities__map map">
+              <Map city={rooms[0].city.location} points={tempPoints}></Map>
+            </section>
           </div>
         </div>
       </div>
