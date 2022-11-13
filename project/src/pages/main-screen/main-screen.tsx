@@ -1,14 +1,20 @@
 import Header from '../../components/header/header';
 import PlaceCardList from '../../components/place-cards-list/place-cards-list';
-import { Hotel } from '../../mocks/offer';
+import Map from '../../components/map/map';
+
+import { Room, Location } from '../../types/types';
 
 type MainScreenProps = {
   offerCount: number;
-  hotels: Hotel[];
+  rooms: Room[];
 }
 
 function MainScreen(props: MainScreenProps) {
-  const { offerCount, hotels } = props;
+  const { offerCount, rooms } = props;
+
+  const tempPoints : Location[] = [];
+  rooms.forEach((room) => tempPoints.push(room.location));
+
   return (
     <main className="page__main page__main--index">
 
@@ -71,10 +77,12 @@ function MainScreen(props: MainScreenProps) {
                 <li className="places__option" tabIndex={0}>Top rated first</li>
               </ul>
             </form>
-            <PlaceCardList hotels={hotels} />
+            <PlaceCardList rooms={rooms} />
           </section>
           <div className="cities__right-section">
-            <section className="cities__map map"></section>
+            <section className="cities__map map">
+              <Map city={rooms[0].city.location} points={tempPoints}></Map>
+            </section>
           </div>
         </div>
       </div>

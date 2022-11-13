@@ -1,15 +1,15 @@
 import { Link } from 'react-router-dom';
 
 import { AppRoute, RATING_MULTIIER_FOR_STYLES } from '../../consts';
-import { Hotel } from '../../mocks/offer';
+import { Room } from '../../types/types';
 
 type PlaceCardProps = {
-  hotel: Hotel;
+  room: Room;
   onPlaceCardMouseOver: (id: number) => void;
 };
 
 function PlaceCard(props: PlaceCardProps) {
-  const { id, images, price, rating, title, type } = props.hotel;
+  const { id, images, price, rating, title, type } = props.room;
   const { onPlaceCardMouseOver } = props;
 
   return (

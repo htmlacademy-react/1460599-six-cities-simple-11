@@ -1,44 +1,12 @@
-export type Hotel = {
-  bedrooms: number;
-  city: {
-    location: {
-      latitude: number;
-      longitude: number;
-      zoom: number;
-    };
-    name: string;
-  };
-  description: string;
-  goods: string[];
-  host: {
-    avatarUrl: string;
-    id: number;
-    isPro: boolean;
-    name: string;
-  };
-  id: number;
-  images: string[];
-  isPremium: boolean;
-  location: {
-    latitude: number;
-    longitude: number;
-    zoom: number;
-  };
-  maxAdults: number;
-  previewImage: string;
-  price: number;
-  rating: number;
-  title: string;
-  type: string;
-}
+import { Room } from '../types/types';
 
-export const mocks: Hotel[] = [
+export const mocks: Room[] = [
   {
     'bedrooms': 3,
     'city': {
       'location': {
-        'latitude': 52.370216,
-        'longitude': 4.895168,
+        'latitude': 52.3909553943508,
+        'longitude': 4.85309666406198,
         'zoom': 10
       },
       'name': 'Amsterdam'
@@ -64,8 +32,8 @@ export const mocks: Hotel[] = [
     ],
     'isPremium': false,
     'location': {
-      'latitude': 52.35514938496378,
-      'longitude': 4.673877537499948,
+      'latitude': 52.3909553943508,
+      'longitude': 4.85309666406198,
       'zoom': 8
     },
     'maxAdults': 4,
@@ -79,8 +47,8 @@ export const mocks: Hotel[] = [
     'bedrooms': 4,
     'city': {
       'location': {
-        'latitude': 52.370216,
-        'longitude': 14.895168,
+        'latitude': 52.3909553943508,
+        'longitude': 4.85309666406198,
         'zoom': 10
       },
       'name': 'Aguzetsuz'
@@ -106,8 +74,8 @@ export const mocks: Hotel[] = [
     ],
     'isPremium': false,
     'location': {
-      'latitude': 53.35514938496378,
-      'longitude': 5.673877537499948,
+      'latitude': 52.3609553943508,
+      'longitude': 4.85309666406198,
       'zoom': 9
     },
     'maxAdults': 3,
@@ -121,8 +89,8 @@ export const mocks: Hotel[] = [
     'bedrooms': 2,
     'city': {
       'location': {
-        'latitude': 51.370216,
-        'longitude': 23.895168,
+        'latitude': 52.3909553943508,
+        'longitude': 4.85309666406198,
         'zoom': 10
       },
       'name': 'Zufepvo'
@@ -148,8 +116,8 @@ export const mocks: Hotel[] = [
     ],
     'isPremium': true,
     'location': {
-      'latitude': 53.35514938496378,
-      'longitude': 15.673877537499948,
+      'latitude': 52.3909553943508,
+      'longitude': 4.929309666406198,
       'zoom': 9
     },
     'maxAdults': 3,
@@ -163,8 +131,8 @@ export const mocks: Hotel[] = [
     'bedrooms': 12,
     'city': {
       'location': {
-        'latitude': 55.370216,
-        'longitude': 22.895168,
+        'latitude': 52.3909553943508,
+        'longitude': 4.85309666406198,
         'zoom': 10
       },
       'name': 'Sisinaop'
@@ -190,9 +158,9 @@ export const mocks: Hotel[] = [
     ],
     'isPremium': true,
     'location': {
-      'latitude': 55.35514938496378,
-      'longitude': 11.673877537499948,
-      'zoom': 9
+      'latitude': 52.3809553943508,
+      'longitude': 4.939309666406198,
+      'zoom': 10
     },
     'maxAdults': 3,
     'previewImage': 'img/room.jpg',
