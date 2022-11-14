@@ -44,7 +44,7 @@ function Map({city, points} : MapProps) {
 
   return (
     <div
-      style={{height: '873px'}}
+      style={{height: '100%'}}
       ref={mapRef}
     >
     </div>
