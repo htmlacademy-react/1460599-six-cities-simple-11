@@ -1,19 +1,37 @@
+import { useEffect, useState } from 'react';
+
 import Header from '../../components/header/header';
 import PlaceCardList from '../../components/place-cards-list/place-cards-list';
 import Map from '../../components/map/map';
+import CitiesList from '../../components/cities-list/cities-list';
 
 import { Room, Location } from '../../types/types';
+import { useAppSelector } from '../../hooks';
 
-type MainScreenProps = {
-  offerCount: number;
-  rooms: Room[];
-}
+function MainScreen() {
 
-function MainScreen(props: MainScreenProps) {
-  const { offerCount, rooms } = props;
+  const rooms = useAppSelector((state) => state.rooms);
+  const currentCity = useAppSelector((state) => state.currentCity);
+  const [currentCityRooms, setCurrentCityRooms] = useState<Room[]>();
 
-  const tempPoints : Location[] = [];
-  rooms.forEach((room) => tempPoints.push(room.location));
+  useEffect(() => {
+    const filteredRooms = rooms.filter((room) => room.city.name === currentCity);
+    setCurrentCityRooms(filteredRooms);
+  }, [currentCity, rooms]);
+
+  const [mapPoints, setMapPoints] = useState<Location[]>([]);
+  const [currentCityLocation, setCurrentCityLocation] = useState<Location | null>();
+
+  useEffect(() => {
+    const points: Location[] = [];
+    currentCityRooms?.forEach((room) => points.push(room.location));
+    setMapPoints(points);
+    if (currentCityRooms && currentCityRooms[0]) {
+      setCurrentCityLocation(currentCityRooms[0].city.location);
+    } else {
+      setCurrentCityLocation(null);
+    }
+  }, [currentCityRooms]);
 
   return (
     <main className="page__main page__main--index">
@@ -23,45 +41,18 @@ function MainScreen(props: MainScreenProps) {
       <h1 className="visually-hidden">Cities</h1>
       <div className="tabs">
         <section className="locations container">
-          <ul className="locations__list tabs__list">
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Paris</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Cologne</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Brussels</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item tabs__item--active">
-                <span>Amsterdam</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Hamburg</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Dusseldorf</span>
-              </a>
-            </li>
-          </ul>
+
+          <CitiesList />
+
         </section>
       </div>
       <div className="cities">
         <div className="cities__places-container container">
           <section className="cities__places places">
             <h2 className="visually-hidden">Places</h2>
-            <b className="places__found">{offerCount} places to stay in Amsterdam</b>
+            <b className="places__found">
+              {currentCityRooms ? currentCityRooms.length : '0'} places to stay in {currentCity}
+            </b>
             <form className="places__sorting" action="#" method="get">
               <span className="places__sorting-caption">Sort by</span>
               <span className="places__sorting-type" tabIndex={0}>
@@ -70,18 +61,24 @@ function MainScreen(props: MainScreenProps) {
                   <use xlinkHref="#icon-arrow-select"></use>
                 </svg>
               </span>
-              <ul className="places__options places__options--custom places__options--opened">
+              <ul className="places__options places__options--custom"> {/*places__options--opened */}
                 <li className="places__option places__option--active" tabIndex={0}>Popular</li>
                 <li className="places__option" tabIndex={0}>Price: low to high</li>
                 <li className="places__option" tabIndex={0}>Price: high to low</li>
                 <li className="places__option" tabIndex={0}>Top rated first</li>
               </ul>
             </form>
-            <PlaceCardList rooms={rooms} />
+
+            { currentCityRooms && currentCityRooms.length > 0 ? (
+              <PlaceCardList rooms={currentCityRooms} />
+            ) : <p>No offefs founded</p>}
+
           </section>
           <div className="cities__right-section">
             <section className="cities__map map">
-              <Map city={rooms[0].city.location} points={tempPoints}></Map>
+
+              { currentCityRooms && currentCityLocation && <Map city={currentCityLocation} points={mapPoints}></Map>}
+
             </section>
           </div>
         </div>
