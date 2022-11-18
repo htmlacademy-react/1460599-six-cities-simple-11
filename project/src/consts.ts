@@ -12,16 +12,9 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-// export enum Cities {
-//   Paris = 'Paris',
-//   Cologne = 'Cologne',
-//   Brussels = 'Brussels',
-//   Amsterdam = 'Amsterdam',
-//   Hamburg = 'Hamburg',
-//   Dusseldorf = 'Dusseldorf'
-// }
+export const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
-export const Cities = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
+export const SORT_OPTIONS = ['Popular', 'Price: low to high', 'Price: high to low', 'Top rated first'];
 
 export const URL_MARKER_DEFAULT = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';
 

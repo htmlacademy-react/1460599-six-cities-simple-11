@@ -4,18 +4,23 @@ import Header from '../../components/header/header';
 import PlaceCardList from '../../components/place-cards-list/place-cards-list';
 import Map from '../../components/map/map';
 import CitiesList from '../../components/cities-list/cities-list';
+import PlacesSort from '../../components/places-sort/places-sort';
 
 import { Room, Location } from '../../types/types';
 import { useAppSelector } from '../../hooks';
 
+import { SORT_OPTIONS } from '../../consts';
+
 function MainScreen() {
 
   const rooms = useAppSelector((state) => state.rooms);
+  const curretSortOption = useAppSelector((state) => state.curretSortOption);
   const currentCity = useAppSelector((state) => state.currentCity);
+
   const [currentCityRooms, setCurrentCityRooms] = useState<Room[]>();
 
   useEffect(() => {
-    const filteredRooms = rooms.filter((room) => room.city.name === currentCity);
+    const filteredRooms: Room[] = rooms.filter((room) => room.city.name === currentCity);
     setCurrentCityRooms(filteredRooms);
   }, [currentCity, rooms]);
 
@@ -32,6 +37,42 @@ function MainScreen() {
       setCurrentCityLocation(null);
     }
   }, [currentCityRooms]);
+
+  const [sortedCurrentCityRooms, setSortedCurrentCityRooms] = useState<Room[]>();
+
+  useEffect(() => {
+    if (currentCityRooms) {
+      const arrayForSort = [...currentCityRooms];
+      switch (curretSortOption) {
+        case SORT_OPTIONS[1]:
+          setSortedCurrentCityRooms([...arrayForSort.sort((a, b) => a.price - b.price)]);
+          break;
+        case SORT_OPTIONS[2]:
+          setSortedCurrentCityRooms([...arrayForSort.sort((a, b) => b.price - a.price)]);
+          break;
+        case SORT_OPTIONS[3]:
+          setSortedCurrentCityRooms([...arrayForSort.sort((a, b) => b.rating - a.rating)]);
+          break;
+        default:
+          setSortedCurrentCityRooms([...arrayForSort]);
+          break;
+      }
+    }
+  }, [currentCityRooms, curretSortOption]);
+
+  const activeRoomId = useAppSelector((state) => state.activeRoomId);
+  const [activeRoomLocation, setActiveRoomLocation] = useState<Location | null>(null);
+
+  useEffect(() => {
+    if (activeRoomId) {
+      const selectedRoom = currentCityRooms?.find((room) => room.id === activeRoomId);
+      if (selectedRoom) {
+        setActiveRoomLocation(selectedRoom.location);
+      }
+    } else {
+      setActiveRoomLocation(null);
+    }
+  }, [activeRoomId, currentCityRooms]);
 
   return (
     <main className="page__main page__main--index">
@@ -53,31 +94,18 @@ function MainScreen() {
             <b className="places__found">
               {currentCityRooms ? currentCityRooms.length : '0'} places to stay in {currentCity}
             </b>
-            <form className="places__sorting" action="#" method="get">
-              <span className="places__sorting-caption">Sort by</span>
-              <span className="places__sorting-type" tabIndex={0}>
-                  Popular
-                <svg className="places__sorting-arrow" width="7" height="4">
-                  <use xlinkHref="#icon-arrow-select"></use>
-                </svg>
-              </span>
-              <ul className="places__options places__options--custom"> {/*places__options--opened */}
-                <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-                <li className="places__option" tabIndex={0}>Price: low to high</li>
-                <li className="places__option" tabIndex={0}>Price: high to low</li>
-                <li className="places__option" tabIndex={0}>Top rated first</li>
-              </ul>
-            </form>
 
-            { currentCityRooms && currentCityRooms.length > 0 ? (
-              <PlaceCardList rooms={currentCityRooms} />
+            <PlacesSort />
+
+            { sortedCurrentCityRooms && sortedCurrentCityRooms.length > 0 ? (
+              <PlaceCardList rooms={sortedCurrentCityRooms} />
             ) : <p>No offefs founded</p>}
 
           </section>
           <div className="cities__right-section">
             <section className="cities__map map">
 
-              { currentCityRooms && currentCityLocation && <Map city={currentCityLocation} points={mapPoints}></Map>}
+              { currentCityRooms && currentCityLocation && <Map city={currentCityLocation} points={mapPoints} selectedPoint={activeRoomLocation}></Map> }
 
             </section>
           </div>

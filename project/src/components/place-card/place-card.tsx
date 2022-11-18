@@ -5,17 +5,19 @@ import { Room } from '../../types/types';
 
 type PlaceCardProps = {
   room: Room;
-  onPlaceCardMouseOver?: (id: number) => void;
+  onPlaceCardMouseOver?: () => void;
+  onPlaceCardMouseOut?: () => void;
 };
 
 function PlaceCard(props: PlaceCardProps) {
   const { id, images, price, rating, title, type } = props.room;
-  const { onPlaceCardMouseOver } = props;
+  const { onPlaceCardMouseOver, onPlaceCardMouseOut } = props;
 
   return (
     <article
       className="cities__card place-card"
-      onMouseOver={() => {if (onPlaceCardMouseOver) {onPlaceCardMouseOver(id);} } }
+      onMouseOver={() => {if (onPlaceCardMouseOver) {onPlaceCardMouseOver();} } }
+      onMouseOut={() => {if (onPlaceCardMouseOut) {onPlaceCardMouseOut();} } }
     >
       <div className="cities__image-wrapper place-card__image-wrapper">
         <Link to={`${AppRoute.Room}/${id}`}>
