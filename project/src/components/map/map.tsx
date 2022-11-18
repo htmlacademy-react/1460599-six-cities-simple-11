@@ -42,6 +42,12 @@ function Map({city, points} : MapProps) {
     }
   }, [map, points]);
 
+  useEffect(() => {
+    if (map) {
+      map.flyTo([city.latitude, city.longitude], city.zoom);
+    }
+  }, [city, map]);
+
   return (
     <div
       style={{height: '100%'}}

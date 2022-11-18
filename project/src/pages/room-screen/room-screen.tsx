@@ -30,11 +30,16 @@ function RoomScreen() {
           <div className="property__gallery-container container">
             <div className="property__gallery">
 
-              {roomData.images.map((image) => (
-                <div key={image} className="property__image-wrapper">
-                  <img className="property__image" src={image} alt="studio" />
-                </div>
-              ))}
+              {roomData.images.map((image, index) => {
+                if (index < 6) {
+                  return (
+                    <div key={image} className="property__image-wrapper">
+                      <img className="property__image" src={image} alt="studio" />
+                    </div>
+                  );
+                }
+              }
+              )}
 
             </div>
           </div>
