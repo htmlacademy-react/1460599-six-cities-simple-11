@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from '../../hooks/index';
 
-import { Cities } from '../../consts';
+import { CITIES } from '../../consts';
 import { selectCity } from '../../store/action';
 
 function CitiesList() {
@@ -15,7 +15,7 @@ function CitiesList() {
 
   return (
     <ul className="locations__list tabs__list">
-      { Cities.map((city) => (
+      { CITIES.map((city) => (
         <li key={city} className="locations__item">
           <a
             className={`locations__item-link tabs__item ${city === currentCity ? 'tabs__item--active' : ''}`}

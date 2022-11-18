@@ -1,14 +1,23 @@
-import { useState } from 'react';
-import { Room } from '../../types/types';
+import { useAppDispatch } from '../../hooks';
+
 import PlaceCard from '../place-card/place-card';
+
+import { Room } from '../../types/types';
+import { setActiveRoomId } from '../../store/action';
 
 type PlaceCardsListProps = {
   rooms: Room[];
 }
 
 function PlaceCardsList(props: PlaceCardsListProps) {
+
   const { rooms } = props;
-  const [ , setActiveCard ] = useState<number>();
+
+  const dispatch = useAppDispatch();
+
+  const onPlaceCardMouseHandler = (id: number | null) => {
+    dispatch(setActiveRoomId(id));
+  };
 
   return (
     <div className="cities__places-list places__list tabs__content">
@@ -16,7 +25,8 @@ function PlaceCardsList(props: PlaceCardsListProps) {
         <PlaceCard
           key={room.id}
           room={room}
-          onPlaceCardMouseOver={() => {setActiveCard(room.id);}}
+          onPlaceCardMouseOver={() => {onPlaceCardMouseHandler(room.id);}}
+          onPlaceCardMouseOut={() => {onPlaceCardMouseHandler(null);}}
         />
       )
       )}
