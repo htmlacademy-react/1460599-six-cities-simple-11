@@ -10,8 +10,11 @@ import { Room, Location } from '../../types/types';
 import { useAppSelector } from '../../hooks';
 
 import { SORT_OPTIONS } from '../../consts';
+import Loader from '../../components/loader/loader';
 
 function MainScreen() {
+
+  const isRoomsLoaded = useAppSelector((state) => state.isRoomsLoaded);
 
   const rooms = useAppSelector((state) => state.rooms);
   const curretSortOption = useAppSelector((state) => state.curretSortOption);
@@ -87,30 +90,33 @@ function MainScreen() {
 
         </section>
       </div>
-      <div className="cities">
-        <div className="cities__places-container container">
-          <section className="cities__places places">
-            <h2 className="visually-hidden">Places</h2>
-            <b className="places__found">
-              {currentCityRooms ? currentCityRooms.length : '0'} places to stay in {currentCity}
-            </b>
+      {!isRoomsLoaded ? (<Loader/>) : (
+        <div className="cities">
+          <div className="cities__places-container container">
+            <section className="cities__places places">
+              <h2 className="visually-hidden">Places</h2>
+              <b className="places__found">
+                {currentCityRooms ? currentCityRooms.length : '0'} places to stay in {currentCity}
+              </b>
 
-            <PlacesSort />
+              <PlacesSort />
 
-            { sortedCurrentCityRooms && sortedCurrentCityRooms.length > 0 ? (
-              <PlaceCardList rooms={sortedCurrentCityRooms} />
-            ) : <p>No offefs founded</p>}
-
-          </section>
-          <div className="cities__right-section">
-            <section className="cities__map map">
-
-              { currentCityRooms && currentCityLocation && <Map city={currentCityLocation} points={mapPoints} selectedPoint={activeRoomLocation}></Map> }
+              { sortedCurrentCityRooms && sortedCurrentCityRooms.length > 0 ? (
+                <PlaceCardList rooms={sortedCurrentCityRooms} />
+              ) : <p>No places to stay available</p>}
 
             </section>
+            <div className="cities__right-section">
+              <section className="cities__map map">
+
+                { currentCityRooms && currentCityLocation && <Map city={currentCityLocation} points={mapPoints} selectedPoint={activeRoomLocation}></Map> }
+
+              </section>
+            </div>
           </div>
         </div>
-      </div>
+      )}
+
     </main>
   );
 }
