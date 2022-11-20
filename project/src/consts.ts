@@ -1,9 +1,18 @@
 export const RATING_MULTIIER_FOR_STYLES = 20;
 
+export const TIMEOUT_SHOW_ERROR = 2000;
+
 export enum AppRoute {
   Root = '/',
   Login = '/login',
   Room = '/offer',
+}
+
+export enum APIRoute {
+  Hotels = '/hotels',
+  Comments = '/comments',
+  Login = '/login',
+  Logout = '/logout',
 }
 
 export enum AuthorizationStatus {
