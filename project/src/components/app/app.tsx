@@ -1,6 +1,8 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import {Provider} from 'react-redux';
+import { Routes, Route } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import HistoryRouter from '../history-route/history-route';
+import browserHistory from '../../browser-history';
 
 import MainScreen from '../../pages/main-screen/main-screen';
 import LoginScreen from '../../pages/login-screen/login-screen';
@@ -14,14 +16,14 @@ import { AppRoute } from '../../consts';
 function App(): JSX.Element {
   return (
     <Provider store={store}>
-      <BrowserRouter>
+      <HistoryRouter history={browserHistory}>
         <Routes>
           <Route path={AppRoute.Root} element={ <MainScreen /> } />
           <Route path={AppRoute.Login} element={ <LoginScreen />} />
           <Route path={`${AppRoute.Room}/:id`} element={ <RoomScreen /> } />
           <Route path='*' element={ <NotFoundScreen /> } />
         </Routes>
-      </BrowserRouter>
+      </HistoryRouter>
     </Provider>
   );
 }

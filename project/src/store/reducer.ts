@@ -1,6 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { selectCity, setActiveRoomId, setCurretSortOption, loadRooms, setErrorFromServer, setIsRoomsLoaded } from './action';
-// import { mocks } from '../mocks/offer';
+import { selectCity, setActiveRoomId, setCurretSortOption, loadRooms, setErrorFromServer, setIsRoomsLoaded, requireAuthorization } from './action';
+
+import { AuthorizationStatus } from '../consts';
 import { Room } from '../types/types';
 
 type initialStateType = {
@@ -10,6 +11,7 @@ type initialStateType = {
   activeRoomId: null | number;
   errorFromServer: string | null;
   isRoomsLoaded: boolean;
+  authorizationStatus: AuthorizationStatus;
 }
 
 const initialState: initialStateType = {
@@ -19,6 +21,7 @@ const initialState: initialStateType = {
   activeRoomId: null,
   errorFromServer: null,
   isRoomsLoaded: false,
+  authorizationStatus: AuthorizationStatus.Unknown,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -40,6 +43,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setIsRoomsLoaded, (state, action) => {
       state.isRoomsLoaded = action.payload;
+    })
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
     });
 });
 

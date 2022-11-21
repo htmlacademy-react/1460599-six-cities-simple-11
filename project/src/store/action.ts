@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
-import { AuthorizationStatus } from '../consts';
+import { AppRoute, AuthorizationStatus } from '../consts';
 import { Room } from '../types/types';
 
 export const selectCity = createAction('main/selectCity', (value: string) => ({
@@ -18,7 +18,6 @@ export const loadRooms = createAction('data/loadRooms', (value: Room[]) => ({
   payload: value
 }));
 
-
 export const requireAuthorization = createAction('user/requireAuthorization', (value: AuthorizationStatus) => ({
   payload: value
 }));
@@ -28,5 +27,9 @@ export const setErrorFromServer = createAction('main/setErrorFromServer', (value
 }));
 
 export const setIsRoomsLoaded = createAction('main/setIsRoomsLoaded', (value: boolean) => ({
+  payload: value
+}));
+
+export const redirectToRoute = createAction('main/redirectToRoute', (value: AppRoute) => ({
   payload: value
 }));
