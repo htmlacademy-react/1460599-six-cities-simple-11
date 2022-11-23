@@ -6,7 +6,7 @@ import { Room } from '../../types/types';
 import { setActiveRoomId } from '../../store/action';
 
 type PlaceCardsListProps = {
-  rooms: Room[];
+  rooms: Room[] | null;
 }
 
 function PlaceCardsList(props: PlaceCardsListProps) {
@@ -21,7 +21,7 @@ function PlaceCardsList(props: PlaceCardsListProps) {
 
   return (
     <div className="cities__places-list places__list tabs__content">
-      {rooms.map((room) => (
+      {rooms && rooms.map((room) => (
         <PlaceCard
           key={room.id}
           room={room}

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import 'leaflet/dist/leaflet.css';
-import leaflet from 'leaflet';
+import leaflet, { LayerGroup } from 'leaflet';
 import useMap from '../../hooks/use-map/use-map';
 
 import { Location } from '../../types/types';
@@ -29,7 +29,10 @@ function Map({city, points, selectedPoint} : MapProps) {
   });
 
   useEffect(() => {
+    const markerGroup = new LayerGroup();
+
     if (map) {
+
       points.forEach((point) => {
         if (selectedPoint && selectedPoint === point) {
           leaflet
@@ -39,7 +42,7 @@ function Map({city, points, selectedPoint} : MapProps) {
             }, {
               icon: currentCustomIcon
             })
-            .addTo(map);
+            .addTo(markerGroup);
         } else {
 
           leaflet
@@ -49,10 +52,21 @@ function Map({city, points, selectedPoint} : MapProps) {
             }, {
               icon: defaultCustomIcon
             })
-            .addTo(map);
+            .addTo(markerGroup);
         }
       });
+
+      markerGroup.addTo(map);
+
     }
+
+
+    return () => {
+      if (map) {
+        map.removeLayer(markerGroup);
+      }
+    };
+
   }, [map, points, selectedPoint]);
 
   useEffect(() => {

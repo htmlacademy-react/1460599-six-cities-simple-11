@@ -17,10 +17,10 @@ function MainScreen() {
   const isRoomsLoaded = useAppSelector((state) => state.isRoomsLoaded);
 
   const rooms = useAppSelector((state) => state.rooms);
-  const curretSortOption = useAppSelector((state) => state.curretSortOption);
+  const curretSortOption = useAppSelector((state) => state.currentSortOption);
   const currentCity = useAppSelector((state) => state.currentCity);
 
-  const [currentCityRooms, setCurrentCityRooms] = useState<Room[]>();
+  const [currentCityRooms, setCurrentCityRooms] = useState<Room[]>([]);
 
   useEffect(() => {
     const filteredRooms: Room[] = rooms.filter((room) => room.city.name === currentCity);
@@ -28,7 +28,7 @@ function MainScreen() {
   }, [currentCity, rooms]);
 
   const [mapPoints, setMapPoints] = useState<Location[]>([]);
-  const [currentCityLocation, setCurrentCityLocation] = useState<Location | null>();
+  const [currentCityLocation, setCurrentCityLocation] = useState<Location | null>(null);
 
   useEffect(() => {
     const points: Location[] = [];
@@ -41,7 +41,7 @@ function MainScreen() {
     }
   }, [currentCityRooms]);
 
-  const [sortedCurrentCityRooms, setSortedCurrentCityRooms] = useState<Room[]>();
+  const [sortedCurrentCityRooms, setSortedCurrentCityRooms] = useState<Room[]>([]);
 
   useEffect(() => {
     if (currentCityRooms) {
@@ -78,7 +78,7 @@ function MainScreen() {
   }, [activeRoomId, currentCityRooms]);
 
   return (
-    <main className="page__main page__main--index">
+    <main className={`page page--gray page--main ${ sortedCurrentCityRooms.length > 0 ? '' : 'page__main--index-empty'}`}>
 
       <Header />
 
@@ -90,30 +90,45 @@ function MainScreen() {
 
         </section>
       </div>
-      {!isRoomsLoaded ? (<Loader/>) : (
+
+      {!isRoomsLoaded ? (
+        <div>
+          <Loader/>
+        </div>
+      ) : (
         <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">
-                {currentCityRooms ? currentCityRooms.length : '0'} places to stay in {currentCity}
-              </b>
 
-              <PlacesSort />
+          { sortedCurrentCityRooms.length > 0 ? (
+            <div className="cities__places-container container">
+              <section className="cities__places places">
+                <h2 className="visually-hidden">Places</h2>
+                <b className="places__found">
+                  {currentCityRooms ? currentCityRooms.length : '0'} places to stay in {currentCity}
+                </b>
 
-              { sortedCurrentCityRooms && sortedCurrentCityRooms.length > 0 ? (
+                <PlacesSort />
                 <PlaceCardList rooms={sortedCurrentCityRooms} />
-              ) : <p>No places to stay available</p>}
-
-            </section>
-            <div className="cities__right-section">
-              <section className="cities__map map">
-
-                { currentCityRooms && currentCityLocation && <Map city={currentCityLocation} points={mapPoints} selectedPoint={activeRoomLocation}></Map> }
 
               </section>
+              <div className="cities__right-section">
+                <section className="cities__map map">
+
+                  { currentCityRooms && currentCityLocation && <Map city={currentCityLocation} points={mapPoints} selectedPoint={activeRoomLocation}></Map> }
+
+                </section>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="cities__places-container cities__places-container--empty container">
+              <section className="cities__no-places">
+                <div className="cities__status-wrapper tabs__content">
+                  <b className="cities__status">No places to stay available</b>
+                  <p className="cities__status-description">We could not find any property available at the moment in Dusseldorf</p>
+                </div>
+              </section>
+              <div className="cities__right-section"></div>
+            </div>
+          ) }
         </div>
       )}
 

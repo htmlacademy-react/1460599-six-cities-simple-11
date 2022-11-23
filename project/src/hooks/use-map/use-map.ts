@@ -8,8 +8,6 @@ function useMap(mapRef: MutableRefObject<HTMLElement | null>, city: Location) {
   const isRenderedRef = useRef(false);
 
   useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log(city);
     if (mapRef.current !== null && !isRenderedRef.current) {
       const instance = leaflet.map(mapRef.current, {
         center: {

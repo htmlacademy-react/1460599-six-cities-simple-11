@@ -1,24 +1,14 @@
 import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/state.js';
-import { loadRooms, redirectToRoute, requireAuthorization, setErrorFromServer, setIsRoomsLoaded } from './action';
+import { loadRoomById, loadRoomByIdComments, loadRoomByIdNearby, loadRooms, redirectToRoute, requireAuthorization, setIsFormLoading, setIsRoomLoaded, setIsRoomsLoaded } from './action';
 import { saveToken, dropToken } from '../services/token';
-import { APIRoute, AppRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../consts';
-import { Room } from '../types/types.js';
+import { APIRoute, AppRoute, AuthorizationStatus } from '../consts';
+import { Comment, Room } from '../types/types.js';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
-import { store } from './';
 import { dropUserEmail, saveUserEmail } from '../services/user-email';
-
-export const clearErrorAction = createAsyncThunk(
-  'main/clearError',
-  () => {
-    setTimeout(
-      () => store.dispatch(setErrorFromServer(null)),
-      TIMEOUT_SHOW_ERROR,
-    );
-  },
-);
+import { CommentData, CommentDataWithId } from '../types/comment-data.js';
 
 export const fetchRoomsAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -30,6 +20,66 @@ export const fetchRoomsAction = createAsyncThunk<void, undefined, {
     const {data} = await api.get<Room[]>(APIRoute.Hotels);
     dispatch(loadRooms(data));
     dispatch(setIsRoomsLoaded(true));
+  },
+);
+
+export const fetchRoomByIdAction = createAsyncThunk<void, number, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchRoomById',
+  async (id, {dispatch, extra: api}) => {
+    try {
+      dispatch(setIsRoomLoaded(false));
+      const {data} = await api.get<Room | null>(`${APIRoute.Hotels}/${id}`);
+      dispatch(loadRoomById(data));
+      dispatch(setIsRoomLoaded(true));
+    } catch {
+      dispatch(setIsRoomLoaded(true));
+    }
+  },
+);
+
+export const fetchRoomByIdNearbyAction = createAsyncThunk<void, number, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchRoomByIdNearbyAction',
+  async (id, {dispatch, extra: api}) => {
+    const {data} = await api.get<Room[]>(`${APIRoute.Hotels}/${id}/nearby`);
+    dispatch(loadRoomByIdNearby(data));
+  },
+);
+
+export const fetchRoomByIdComments = createAsyncThunk<void, number, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchRoomByIdComments',
+  async (id, {dispatch, extra: api}) => {
+    const {data} = await api.get<Comment[]>(`${APIRoute.Comments}/${id}`);
+    dispatch(loadRoomByIdComments(data));
+  },
+);
+
+export const postCommentByRoomId = createAsyncThunk<void, CommentDataWithId, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/postCommentByRoomId',
+  async (data, {dispatch, extra: api}) => {
+    try {
+      dispatch(setIsFormLoading(true));
+      await api.post<CommentData>(`${APIRoute.Comments}/${data.id}`, data.commentData);
+      dispatch(fetchRoomByIdComments(data.id));
+      dispatch(setIsFormLoading(false));
+    } catch {
+      dispatch(setIsFormLoading(false));
+    }
   },
 );
 
@@ -75,5 +125,6 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     dropToken();
     dropUserEmail();
     dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    dispatch(redirectToRoute(AppRoute.Login));
   },
 );
