@@ -46,7 +46,7 @@ function RoomScreen() {
 
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
-  return !roomData && isRoomLoaded ? (
+  return roomData === null && isRoomLoaded ? (
     <NotFoundScreen />
   ) : (
     <div className="page">
@@ -144,7 +144,7 @@ function RoomScreen() {
                   ) : (
                     <p>There are no comments on this page yet</p>
                   )}
-                  {authorizationStatus === AuthorizationStatus.Auth && <ReviewsForm />}
+                  {authorizationStatus === AuthorizationStatus.Auth && id && <ReviewsForm id={+id} />}
                 </section>
               </div>
             </div>
@@ -162,7 +162,9 @@ function RoomScreen() {
           </div>
         </main>
       ) : (
-        <Loader />
+        <div style={{width: '100%', height: 'calc(100vh - 80px)', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+          <Loader/>
+        </div>
       )}
 
     </div>

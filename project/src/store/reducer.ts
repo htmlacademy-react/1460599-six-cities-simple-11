@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { selectCity, setActiveRoomId, setCurrentSortOption, loadRooms, setIsRoomsLoaded, requireAuthorization, loadRoomById, setIsRoomLoaded, loadRoomByIdNearby, loadRoomByIdComments } from './action';
+import { selectCity, setActiveRoomId, setCurrentSortOption, loadRooms, setIsRoomsLoaded, requireAuthorization, loadRoomById, setIsRoomLoaded, loadRoomByIdNearby, loadRoomByIdComments, setIsFormLoading } from './action';
 
 import { AuthorizationStatus } from '../consts';
 import { Room, Comment } from '../types/types';
@@ -8,6 +8,7 @@ type initialStateType = {
   authorizationStatus: AuthorizationStatus;
   isRoomsLoaded: boolean;
   isRoomLoaded: boolean;
+  isFormLoading: boolean;
   currentCity: string;
   rooms: Room[];
   currentSortOption: string;
@@ -24,6 +25,7 @@ const initialState: initialStateType = {
   authorizationStatus: AuthorizationStatus.Unknown,
   isRoomsLoaded: false,
   isRoomLoaded: false,
+  isFormLoading: false,
   currentCity: 'Paris',
   rooms: [],
   currentSortOption: 'Popular',
@@ -67,6 +69,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadRoomByIdComments, (state, action) => {
       state.currentRoom.comments = action.payload;
+    })
+    .addCase(setIsFormLoading, (state, action) => {
+      state.isFormLoading = action.payload;
     });
 });
 

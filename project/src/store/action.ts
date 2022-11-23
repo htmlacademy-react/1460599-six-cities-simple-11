@@ -45,3 +45,7 @@ export const loadRoomByIdNearby = createAction('main/loadRoomByIdNearby', (value
 export const loadRoomByIdComments = createAction('main/loadRoomByIdComments', (value: Comment[]) => ({
   payload: value
 }));
+
+export const setIsFormLoading = createAction('room/setIsFormLoading', (value: boolean) => ({
+  payload: value
+}));

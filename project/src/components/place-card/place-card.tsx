@@ -10,7 +10,7 @@ type PlaceCardProps = {
 };
 
 function PlaceCard(props: PlaceCardProps) {
-  const { id, images, price, rating, title, type } = props.room;
+  const { id, images, price, rating, title, type, isPremium } = props.room;
   const { onPlaceCardMouseOver, onPlaceCardMouseOut } = props;
 
   return (
@@ -19,6 +19,11 @@ function PlaceCard(props: PlaceCardProps) {
       onMouseOver={() => {if (onPlaceCardMouseOver) {onPlaceCardMouseOver();} } }
       onMouseOut={() => {if (onPlaceCardMouseOut) {onPlaceCardMouseOut();} } }
     >
+      {isPremium && (
+        <div className="place-card__mark">
+          <span>Premium</span>
+        </div>
+      )}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <Link to={`${AppRoute.Room}/${id}`}>
           <img className="place-card__image" src={images[0]} width="260" height="200" alt="Place" />

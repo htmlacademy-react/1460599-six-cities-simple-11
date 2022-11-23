@@ -1,13 +1,14 @@
 import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/state.js';
-import { loadRoomById, loadRoomByIdComments, loadRoomByIdNearby, loadRooms, redirectToRoute, requireAuthorization, setIsRoomLoaded, setIsRoomsLoaded } from './action';
+import { loadRoomById, loadRoomByIdComments, loadRoomByIdNearby, loadRooms, redirectToRoute, requireAuthorization, setIsFormLoading, setIsRoomLoaded, setIsRoomsLoaded } from './action';
 import { saveToken, dropToken } from '../services/token';
 import { APIRoute, AppRoute, AuthorizationStatus } from '../consts';
 import { Comment, Room } from '../types/types.js';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
 import { dropUserEmail, saveUserEmail } from '../services/user-email';
+import { CommentData, CommentDataWithId } from '../types/comment-data.js';
 
 export const fetchRoomsAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -29,10 +30,14 @@ export const fetchRoomByIdAction = createAsyncThunk<void, number, {
 }>(
   'data/fetchRoomById',
   async (id, {dispatch, extra: api}) => {
-    const {data} = await api.get<Room | null>(`${APIRoute.Hotels}/${id}`);
-    dispatch(setIsRoomLoaded(false));
-    dispatch(loadRoomById(data));
-    dispatch(setIsRoomLoaded(true));
+    try {
+      dispatch(setIsRoomLoaded(false));
+      const {data} = await api.get<Room | null>(`${APIRoute.Hotels}/${id}`);
+      dispatch(loadRoomById(data));
+      dispatch(setIsRoomLoaded(true));
+    } catch {
+      dispatch(setIsRoomLoaded(true));
+    }
   },
 );
 
@@ -57,6 +62,24 @@ export const fetchRoomByIdComments = createAsyncThunk<void, number, {
   async (id, {dispatch, extra: api}) => {
     const {data} = await api.get<Comment[]>(`${APIRoute.Comments}/${id}`);
     dispatch(loadRoomByIdComments(data));
+  },
+);
+
+export const postCommentByRoomId = createAsyncThunk<void, CommentDataWithId, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/postCommentByRoomId',
+  async (data, {dispatch, extra: api}) => {
+    try {
+      dispatch(setIsFormLoading(true));
+      await api.post<CommentData>(`${APIRoute.Comments}/${data.id}`, data.commentData);
+      dispatch(fetchRoomByIdComments(data.id));
+      dispatch(setIsFormLoading(false));
+    } catch {
+      dispatch(setIsFormLoading(false));
+    }
   },
 );
 
