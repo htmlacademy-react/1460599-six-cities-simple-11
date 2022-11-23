@@ -1,18 +1,18 @@
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/index';
-import { setCurretSortOption } from '../../store/action';
+import { setCurrentSortOption } from '../../store/action';
 
 import { SORT_OPTIONS } from '../../consts';
 
 function PlacesSort() {
 
-  const curretSortOption = useAppSelector((state) => state.curretSortOption);
+  const curretSortOption = useAppSelector((state) => state.currentSortOption);
   const dispatch = useAppDispatch();
 
   const [isOptionsOpened, setIsOptionsOpened] = useState(false);
 
   const placeOptionClickHandle = (value: string) => {
-    dispatch(setCurretSortOption(value));
+    dispatch(setCurrentSortOption(value));
     setIsOptionsOpened(false);
   };
 

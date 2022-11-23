@@ -17,7 +17,7 @@ function MainScreen() {
   const isRoomsLoaded = useAppSelector((state) => state.isRoomsLoaded);
 
   const rooms = useAppSelector((state) => state.rooms);
-  const curretSortOption = useAppSelector((state) => state.curretSortOption);
+  const curretSortOption = useAppSelector((state) => state.currentSortOption);
   const currentCity = useAppSelector((state) => state.currentCity);
 
   const [currentCityRooms, setCurrentCityRooms] = useState<Room[]>();
@@ -78,7 +78,7 @@ function MainScreen() {
   }, [activeRoomId, currentCityRooms]);
 
   return (
-    <main className="page__main page__main--index">
+    <main className="page page--gray page--main">
 
       <Header />
 
