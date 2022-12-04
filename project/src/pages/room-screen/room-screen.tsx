@@ -52,7 +52,7 @@ function RoomScreen() {
 
     <div className="page">
 
-      <Header />
+      <Header /> 
 
       { room && !isRoomLoading ? (
 
