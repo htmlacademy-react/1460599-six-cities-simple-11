@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 
 import { AppRoute, RATING_MULTIIER_FOR_STYLES } from '../../consts';
@@ -51,5 +52,5 @@ function PlaceCard(props: PlaceCardProps) {
   );
 }
 
-export default PlaceCard;
+export default memo(PlaceCard);
 

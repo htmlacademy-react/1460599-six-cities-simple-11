@@ -4,10 +4,11 @@ import Header from '../../components/header/header';
 import { AppRoute, AuthorizationStatus } from '../../consts';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { loginAction } from '../../store/api-actions';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 function LoginScreen() {
 
-  const authorizationStatus = useAppSelector((store) => store.authorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 

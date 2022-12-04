@@ -1,16 +1,17 @@
 import { useAppDispatch, useAppSelector } from '../../hooks/index';
 
 import { CITIES } from '../../consts';
-import { selectCity } from '../../store/action';
+import { getCurrentCity } from '../../store/room-process/selectors';
+import { setSelectedCity } from '../../store/room-process/room-process';
 
 function CitiesList() {
 
-  const currentCity = useAppSelector((state) => state.currentCity);
+  const currentCity = useAppSelector(getCurrentCity);
   const dispatch = useAppDispatch();
 
   const selectCityHandle = (evt: React.SyntheticEvent<HTMLAnchorElement>, city: string) => {
     evt.preventDefault();
-    dispatch(selectCity(city));
+    dispatch(setSelectedCity(city));
   };
 
   return (

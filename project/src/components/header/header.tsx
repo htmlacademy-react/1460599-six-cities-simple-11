@@ -4,10 +4,11 @@ import { AppRoute, AuthorizationStatus } from '../../consts';
 import { useAppDispatch, useAppSelector } from '../../hooks/index';
 import { getUserEmail } from '../../services/user-email';
 import { logoutAction } from '../../store/api-actions';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 function Header() {
 
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const dispatch = useAppDispatch();
 
   const signOutOnClick = (evt : SyntheticEvent<HTMLAnchorElement>) => {
