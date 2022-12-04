@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/index';
-import { setCurrentSortOption } from '../../store/action';
 
 import { SORT_OPTIONS } from '../../consts';
+import { getCurrentSortOption } from '../../store/room-process/selectors';
+import { setCurrentSortOption } from '../../store/room-process/room-process';
 
 function PlacesSort() {
 
-  const curretSortOption = useAppSelector((state) => state.currentSortOption);
+  const curretSortOption = useAppSelector(getCurrentSortOption);
   const dispatch = useAppDispatch();
 
   const [isOptionsOpened, setIsOptionsOpened] = useState(false);

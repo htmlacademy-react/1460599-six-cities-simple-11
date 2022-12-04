@@ -3,7 +3,8 @@ import { useAppDispatch } from '../../hooks';
 import PlaceCard from '../place-card/place-card';
 
 import { Room } from '../../types/types';
-import { setActiveRoomId } from '../../store/action';
+import { useCallback } from 'react';
+import { setActiveRoomId } from '../../store/room-process/room-process';
 
 type PlaceCardsListProps = {
   rooms: Room[] | null;
@@ -15,9 +16,12 @@ function PlaceCardsList(props: PlaceCardsListProps) {
 
   const dispatch = useAppDispatch();
 
-  const onPlaceCardMouseHandler = (id: number | null) => {
-    dispatch(setActiveRoomId(id));
-  };
+  const onPlaceCardMouseHandler = useCallback(
+    (id: number | null) => {
+      dispatch(setActiveRoomId(id));
+    },
+    [rooms],
+  );
 
   return (
     <div className="cities__places-list places__list tabs__content">
