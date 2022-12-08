@@ -1,6 +1,6 @@
 import { SyntheticEvent } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from '../../consts';
+import { AppRoute, AuthorizationStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/index';
 import { getUserEmail } from '../../services/user-email';
 import { logoutAction } from '../../store/api-actions';
@@ -11,7 +11,7 @@ function Header() {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const dispatch = useAppDispatch();
 
-  const signOutOnClick = (evt : SyntheticEvent<HTMLAnchorElement>) => {
+  const handleSignOutClick = (evt : SyntheticEvent<HTMLAnchorElement>) => {
     evt.preventDefault();
     dispatch(logoutAction());
   };
@@ -21,7 +21,7 @@ function Header() {
   const location = useLocation();
 
   return (
-    <header className="header">
+    <header className="header" data-testid="header-element">
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">
@@ -39,7 +39,7 @@ function Header() {
                   </div>
                 </li>
                 <li className="header__nav-item">
-                  <a className="header__nav-link" href="##" onClick={signOutOnClick}>
+                  <a className="header__nav-link" href="##" onClick={handleSignOutClick}>
                     <span className="header__signout">Sign out</span>
                   </a>
                 </li>

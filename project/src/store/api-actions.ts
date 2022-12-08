@@ -3,7 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/state.js';
 import { redirectToRoute } from './action';
 import { saveToken, dropToken } from '../services/token';
-import { APIRoute, AppRoute } from '../consts';
+import { APIRoute, AppRoute } from '../const';
 import { Comment, Room } from '../types/types.js';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
@@ -105,6 +105,5 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     await api.delete(APIRoute.Logout);
     dropToken();
     dropUserEmail();
-    dispatch(redirectToRoute(AppRoute.Login));
   },
 );

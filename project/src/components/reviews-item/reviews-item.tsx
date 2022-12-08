@@ -1,4 +1,4 @@
-import { RATING_MULTIIER_FOR_STYLES } from '../../consts';
+import { RATING_MULTIIER_FOR_STYLES, Month } from '../../const';
 import { Comment } from '../../types/types';
 
 type ReviewsItemType = {
@@ -6,6 +6,10 @@ type ReviewsItemType = {
 }
 
 function ReviewsItem({comment} : ReviewsItemType) {
+
+  const monthDate = comment.date.substring(5,7);
+  const yearDate = comment.date.substring(0,4);
+
   return (
     <li key={comment.comment} className="reviews__item">
       <div className="reviews__user user">
@@ -26,7 +30,7 @@ function ReviewsItem({comment} : ReviewsItemType) {
         <p className="reviews__text">
           {comment.comment}
         </p>
-        <time className="reviews__time" dateTime="2019-04-24">{comment.date}</time>
+        <time className="reviews__time" dateTime={comment.date}>{`${Month[monthDate]} ${yearDate}`}</time>
       </div>
     </li>
   );

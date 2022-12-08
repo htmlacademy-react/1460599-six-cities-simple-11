@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
 
-import { AppRoute, RATING_MULTIIER_FOR_STYLES } from '../../consts';
+import { AppRoute, RATING_MULTIIER_FOR_STYLES } from '../../const';
 import { Room } from '../../types/types';
 
 type PlaceCardProps = {
@@ -10,7 +10,7 @@ type PlaceCardProps = {
   onPlaceCardMouseOut?: () => void;
 };
 
-function PlaceCard(props: PlaceCardProps) {
+function PlaceCard(props: PlaceCardProps): JSX.Element {
   const { id, images, price, rating, title, type, isPremium } = props.room;
   const { onPlaceCardMouseOver, onPlaceCardMouseOut } = props;
 
@@ -39,7 +39,7 @@ function PlaceCard(props: PlaceCardProps) {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${rating * RATING_MULTIIER_FOR_STYLES}%`}}></span>
+            <span style={{width: `${Math.round(rating) * RATING_MULTIIER_FOR_STYLES}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

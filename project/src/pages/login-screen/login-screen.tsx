@@ -1,9 +1,10 @@
 import { SyntheticEvent, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Header from '../../components/header/header';
-import { AppRoute, AuthorizationStatus } from '../../consts';
+import { AppRoute, AuthorizationStatus, Cities } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { loginAction } from '../../store/api-actions';
+import { setSelectedCity } from '../../store/room-process/room-process';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 function LoginScreen() {
@@ -16,12 +17,12 @@ function LoginScreen() {
     if (authorizationStatus === AuthorizationStatus.Auth) {
       navigate(AppRoute.Root);
     }
-  }, []);
+  }, [authorizationStatus]);
 
   const email = useRef<HTMLInputElement | null>(null);
   const password = useRef<HTMLInputElement | null>(null);
 
-  const loginFormOnSubmit = (evt: SyntheticEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (evt: SyntheticEvent<HTMLFormElement>) => {
     evt.preventDefault();
     if (email.current !== null && password.current !== null) {
       dispatch(loginAction({
@@ -31,6 +32,13 @@ function LoginScreen() {
     }
   };
 
+  const handleCityButtonClick = (city: string) => {
+    dispatch(setSelectedCity(city));
+  };
+
+  const cityArray = Object.values(Cities);
+  const randomCity = cityArray[Math.floor(Math.random() * cityArray.length)];
+
   return (
     <div className="page page--gray page--login">
       <Header />
@@ -39,23 +47,47 @@ function LoginScreen() {
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>
-            <form onSubmit={loginFormOnSubmit} className="login__form form">
+            <form onSubmit={handleFormSubmit} className="login__form form">
+
               <div className="login__input-wrapper form__input-wrapper">
-                <label className="visually-hidden">E-mail</label>
-                <input ref={email} className="login__input form__input" type="email" name="email" placeholder="Email" required />
+                <label htmlFor='email' className="visually-hidden">E-mail</label>
+                <input
+                  ref={email}
+                  className="login__input form__input"
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  id='email'
+                  data-testid="email"
+                  required
+                />
               </div>
+
               <div className="login__input-wrapper form__input-wrapper">
-                <label className="visually-hidden">Password</label>
-                <input ref={password} className="login__input form__input" type="password" name="password" placeholder="Password" required />
+                <label htmlFor='pass' className="visually-hidden">Password</label>
+                <input
+                  ref={password}
+                  className="login__input form__input"
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  id='pass'
+                  data-testid="password"
+                  required
+                />
               </div>
+
               <button className="login__submit form__submit button" type="submit">Sign in</button>
+
             </form>
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="#">
-                <span>Amsterdam</span>
-              </a>
+
+              <Link className="locations__item-link" to={AppRoute.Root} onClick={() => {handleCityButtonClick(randomCity);}}>
+                <span>{randomCity}</span>
+              </Link>
+
             </div>
           </section>
         </div>

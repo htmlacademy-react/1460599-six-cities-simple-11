@@ -32,6 +32,7 @@ function ReviewsForm({id}: ReviewsFormType) {
   const formDataValidate = () => {
     if (reviewFormData.rating === 0) {return true;}
     if (reviewFormData.comment.length < 50) {return true;}
+    if (reviewFormData.comment.length > 300) {return true;}
     return false;
   };
 
@@ -39,7 +40,7 @@ function ReviewsForm({id}: ReviewsFormType) {
     setIsSumbitDisabled(formDataValidate());
   }, [reviewFormData]);
 
-  const onClickSubmitButton = (evt: SyntheticEvent<HTMLButtonElement>) => {
+  const handleSubmitButtonClick = (evt: SyntheticEvent<HTMLButtonElement>) => {
     evt.preventDefault();
     dispatch(postCommentInRoomById({id, commentData: reviewFormData}));
     setReviewFormData(initialReviewFormData);
@@ -49,7 +50,7 @@ function ReviewsForm({id}: ReviewsFormType) {
   const radioStars = Array.from({length: NUMBER_OF_STARS});
 
   return(
-    <form className="reviews__form form" style={{position: 'relative'}}>
+    <form className="reviews__form form" style={{position: 'relative'}} data-testid="reviews-form-element">
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
 
@@ -66,7 +67,7 @@ function ReviewsForm({id}: ReviewsFormType) {
                 onChange={handleReviewFormOnchange}
                 checked={reviewFormData.rating === starValue}
               />
-              <label htmlFor="5-stars" className="reviews__rating-label form__rating-label" title="perfect">
+              <label htmlFor={`${starValue}-stars`} className="reviews__rating-label form__rating-label" title="perfect">
                 <svg className="form__star-image" width="37" height="33">
                   <use xlinkHref="#icon-star"></use>
                 </svg>
@@ -83,6 +84,8 @@ function ReviewsForm({id}: ReviewsFormType) {
         name="comment"
         placeholder="Tell how was your stay, what you like and what can be improved"
         onChange={handleReviewFormOnchange}
+        value={reviewFormData.comment}
+        data-testid="textarea-element"
       />
 
       <div className="reviews__button-wrapper">
@@ -94,7 +97,7 @@ function ReviewsForm({id}: ReviewsFormType) {
           className="reviews__submit form__submit button"
           type="submit"
           disabled={isSumbitDisabled}
-          onClick={onClickSubmitButton}
+          onClick={handleSubmitButtonClick}
         >
           Submit
         </button>

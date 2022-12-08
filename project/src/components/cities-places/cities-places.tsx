@@ -2,7 +2,7 @@ import PlacesSort from '../places-sort/places-sort';
 import PlaceCardsList from '../place-cards-list/place-cards-list';
 import { useEffect, useState } from 'react';
 import { Room } from '../../types/types';
-import { SORT_OPTIONS } from '../../consts';
+import { SortOptions } from '../../const';
 import { useAppSelector } from '../../hooks';
 import { getCurrentSortOption } from '../../store/room-process/selectors';
 
@@ -19,13 +19,13 @@ function CitiesPlaces({currentCityRooms}: CitiesPlacesType) {
     if (currentCityRooms) {
       const arrayForSort = [...currentCityRooms];
       switch (curretSortOption) {
-        case SORT_OPTIONS[1]:
+        case SortOptions.LowToHigh:
           setSortedCurrentCityRooms([...arrayForSort.sort((a, b) => a.price - b.price)]);
           break;
-        case SORT_OPTIONS[2]:
+        case SortOptions.HighToLow:
           setSortedCurrentCityRooms([...arrayForSort.sort((a, b) => b.price - a.price)]);
           break;
-        case SORT_OPTIONS[3]:
+        case SortOptions.TopRatedFirst:
           setSortedCurrentCityRooms([...arrayForSort.sort((a, b) => b.rating - a.rating)]);
           break;
         default:

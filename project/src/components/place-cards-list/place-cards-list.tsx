@@ -24,7 +24,7 @@ function PlaceCardsList(props: PlaceCardsListProps) {
   );
 
   return (
-    <div className="cities__places-list places__list tabs__content">
+    <div className="cities__places-list places__list tabs__content" data-testid="place-cards-list-element">
       {rooms && rooms.map((room) => (
         <PlaceCard
           key={room.id}

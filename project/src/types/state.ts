@@ -1,5 +1,5 @@
 import { store } from '../store/index';
-import { AuthorizationStatus } from '../consts';
+import { AuthorizationStatus } from '../const';
 import { Room, Comment } from './types';
 
 export type UserProcess = {
@@ -19,7 +19,6 @@ export type DataProcess = {
   isRoomsLoading: boolean;
   isRoomByIdLoading: boolean;
   isFormLoading: boolean;
-  errorFromServer: string | null;
 };
 
 export type RoomProcess = {
