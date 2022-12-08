@@ -44,9 +44,6 @@ describe('Component: LoginScreen', () => {
           <Routes>
             <Route path={AppRoute.Login} element={<LoginScreen />} />
           </Routes>
-          {/* <Routes>
-            <Route path={AppRoute.Root} element={<h1>Main screen</h1>} />
-          </Routes> */}
         </HistoryRouter>
       </Provider>,
     );
@@ -62,26 +59,26 @@ describe('Component: LoginScreen', () => {
     expect(screen.getByDisplayValue('password')).toBeInTheDocument();
   });
 
-  // it('when user click "Replay Button" should redirect', async () => {
-  //   render(
-  //     <Provider store={store}>
-  //       <HistoryRouter history={history}>
-  //         <Routes>
-  //           <Route
-  //             path={AppRoute.Lose}
-  //             element={<GameOverScreen />}
-  //           />
-  //           <Route
-  //             path={AppRoute.Game}
-  //             element={<h1>Mock Game Screen</h1>}
-  //           />
-  //         </Routes>
-  //       </HistoryRouter>
-  //     </Provider>,
-  //   );
+  it('when user click "city Button" should redirect to mail page', async () => {
+    render(
+      <Provider store={store}>
+        <HistoryRouter history={history}>
+          <Routes>
+            <Route
+              path={AppRoute.Login}
+              element={<LoginScreen />}
+            />
+            <Route
+              path={AppRoute.Root}
+              element={<h1>Main screen</h1>}
+            />
+          </Routes>
+        </HistoryRouter>
+      </Provider>,
+    );
 
-  //   await userEvent.click(screen.getByText(/Попробовать ещё раз/i));
+    await userEvent.click(screen.getByTestId('location-item-element'));
 
-  //   expect(screen.getByText(/Mock Game Screen/i)).toBeInTheDocument();
-  // });
+    expect(screen.getByText(/Main screen/i)).toBeInTheDocument();
+  });
 });

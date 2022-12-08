@@ -1,4 +1,4 @@
-import PlacesSort from './places-sort';
+import PlaceCard from './place-card';
 import { render, screen } from '@testing-library/react';
 import { mocks } from '../../mocks/offer';
 import { configureMockStore } from '@jedmao/redux-mock-store';
@@ -32,18 +32,18 @@ const store = mockStore({
 
 const history = createMemoryHistory();
 
-describe('Places Sort component:', () => {
+describe('Place Card component:', () => {
 
-  it('should render "PlacesSort" component', () => {
+  it('should render "PlaceCard" component', () => {
     render(
       <Provider store={store}>
         <HistoryRouter history={history}>
-          <PlacesSort />
+          <PlaceCard room={mocks[0]} />
         </HistoryRouter>
       </Provider>
     );
 
-    expect(screen.getByTestId('places-sort-element')).toBeInTheDocument();
+    expect(screen.getByTestId('place-card-element')).toBeInTheDocument();
   });
 
 });

@@ -38,7 +38,6 @@ describe('Reducer: dataProcess', () => {
         isRoomsLoading: true,
         isRoomByIdLoading: false,
         isFormLoading: false,
-        errorFromServer: null,
       });
   });
 
@@ -55,7 +54,6 @@ describe('Reducer: dataProcess', () => {
         isRoomsLoading: false,
         isRoomByIdLoading: false,
         isFormLoading: false,
-        errorFromServer: null,
       });
   });
 
@@ -78,7 +76,6 @@ describe('Reducer: dataProcess', () => {
         isRoomsLoading: false,
         isRoomByIdLoading: true,
         isFormLoading: false,
-        errorFromServer: null,
       });
   });
 
@@ -95,7 +92,6 @@ describe('Reducer: dataProcess', () => {
         isRoomsLoading: false,
         isRoomByIdLoading: false,
         isFormLoading: false,
-        errorFromServer: null,
       });
   });
 
@@ -118,7 +114,6 @@ describe('Reducer: dataProcess', () => {
         isRoomsLoading: false,
         isRoomByIdLoading: false,
         isFormLoading: false,
-        errorFromServer: null,
       });
   });
 
@@ -135,7 +130,6 @@ describe('Reducer: dataProcess', () => {
         isRoomsLoading: false,
         isRoomByIdLoading: false,
         isFormLoading: false,
-        errorFromServer: null,
       });
   });
 
@@ -152,7 +146,6 @@ describe('Reducer: dataProcess', () => {
         isRoomsLoading: false,
         isRoomByIdLoading: false,
         isFormLoading: true,
-        errorFromServer: null,
       });
   });
 
