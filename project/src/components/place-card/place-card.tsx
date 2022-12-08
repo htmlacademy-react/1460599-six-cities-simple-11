@@ -19,6 +19,7 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
       className="cities__card place-card"
       onMouseOver={() => {if (onPlaceCardMouseOver) {onPlaceCardMouseOver();} } }
       onMouseOut={() => {if (onPlaceCardMouseOut) {onPlaceCardMouseOut();} } }
+      data-testid="place-card-element"
     >
       {isPremium && (
         <div className="place-card__mark">

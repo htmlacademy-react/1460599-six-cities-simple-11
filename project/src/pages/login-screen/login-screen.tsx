@@ -84,7 +84,7 @@ function LoginScreen() {
           <section className="locations locations--login locations--current">
             <div className="locations__item">
 
-              <Link className="locations__item-link" to={AppRoute.Root} onClick={() => {handleCityButtonClick(randomCity);}}>
+              <Link className="locations__item-link" to={AppRoute.Root} onClick={() => {handleCityButtonClick(randomCity);}} data-testid="location-item-element">
                 <span>{randomCity}</span>
               </Link>
 

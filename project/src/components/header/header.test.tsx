@@ -4,6 +4,8 @@ import { mocks } from '../../mocks/offer';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
 import { AuthorizationStatus, NameSpace } from '../../const';
+import HistoryRouter from '../history-route/history-route';
+import { createMemoryHistory } from 'history';
 
 const mockStore = configureMockStore();
 
@@ -28,12 +30,17 @@ const store = mockStore({
   },
 });
 
+const history = createMemoryHistory();
+
 describe('Header component', () => {
 
   it('should render "Header" component', () => {
     render(
+
       <Provider store={store}>
-        <Header />
+        <HistoryRouter history={history}>
+          <Header />
+        </HistoryRouter>
       </Provider>
     );
 
