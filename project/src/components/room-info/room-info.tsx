@@ -1,4 +1,4 @@
-import { RATING_MULTIIER_FOR_STYLES } from '../../consts';
+import { RATING_MULTIIER_FOR_STYLES } from '../../const';
 import { Room } from '../../types/types';
 
 type RoomInfoType = {
@@ -53,15 +53,15 @@ function RoomInfo({roomData}: RoomInfoType) {
       <div className="property__host">
         <h2 className="property__host-title">Meet the host</h2>
         <div className="property__host-user user">
-          <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
-            <img className="property__avatar user__avatar" src={roomData.host.avatarUrl} width="74" height="74" alt="Host avatar" />
+          <div className={`property__avatar-wrapper user__avatar-wrapper ${roomData.host.isPro ? 'property__avatar-wrapper--pro' : ''}`}>
+            <img className="property__avatar user__avatar" src={roomData.host.avatarUrl} width="74" height="74" alt={roomData.host.name} />
           </div>
           <span className="property__user-name">
             {roomData.host.name}
           </span>
           {roomData.host.isPro && (
             <span className="property__user-status">
-                    Pro
+              Pro
             </span>
           )}
         </div>

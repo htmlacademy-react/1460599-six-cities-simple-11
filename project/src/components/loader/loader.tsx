@@ -1,6 +1,6 @@
-function Loader() {
+function Loader(): JSX.Element {
   return (
-    <div className="lds-ring" style={{ marginLeft: '-32px', marginTop: '-32px' }}>
+    <div data-testid="loader-element" className="lds-ring" style={{ marginLeft: '-32px', marginTop: '-32px' }}>
       <div></div>
       <div></div>
       <div></div>

@@ -2,12 +2,9 @@ import { useParams } from 'react-router-dom';
 
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import Header from '../../components/header/header';
-import ReviewsForm from '../../components/reviews-form/reviews-form';
-import ReviewsList from '../../components/reviews-list/reviews-list';
 import PlaceCardsList from '../../components/place-cards-list/place-cards-list';
 import Map from '../../components/map/map';
 
-import { AuthorizationStatus } from '../../consts';
 import { fetchRoomById, fetchCommentsInRoomById, fetchNearbyInRoomById } from '../../store/api-actions';
 
 import { Location } from '../../types/types';
@@ -17,6 +14,7 @@ import { useEffect, useState } from 'react';
 import RoomInfo from '../../components/room-info/room-info';
 import { getCurrentRoom, getIsRoomByIdLoading } from '../../store/data-process/selectors';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import Reviews from '../../components/reviews/reviews';
 
 function RoomScreen() {
 
@@ -33,7 +31,7 @@ function RoomScreen() {
     }
   }, [id]);
 
-  const { room, nearby, comments } = useAppSelector(getCurrentRoom);
+  const { room, nearby } = useAppSelector(getCurrentRoom);
 
   const [mapPoints, setMapPoints] = useState<Location[]>([]);
 
@@ -47,12 +45,15 @@ function RoomScreen() {
   }, [nearby, room]);
 
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const MAX_PHOTOS_NUMBER = 6;
 
   return room === null && !isRoomLoading ? ( <NotFoundScreen /> ) : (
 
     <div className="page">
 
-      <Header /> 
+      <Header />
+
+      <h1 className='visually-hidden'>Personal room offer</h1>
 
       { room && !isRoomLoading ? (
 
@@ -63,7 +64,7 @@ function RoomScreen() {
               <div className="property__gallery">
 
                 { room.images.map((image, index) => {
-                  if (index < 6) {
+                  if (index < MAX_PHOTOS_NUMBER) {
                     return (
                       <div key={image} className="property__image-wrapper">
                         <img className="property__image" src={image} alt="studio" />
@@ -78,18 +79,8 @@ function RoomScreen() {
               <div className="property__wrapper">
 
                 <RoomInfo roomData={room} />
+                <Reviews id={id} authorizationStatus={authorizationStatus} />
 
-                <section className="property__reviews reviews">
-
-                  { comments ? (
-                    <ReviewsList comments={comments}/>
-                  ) : (
-                    <p>There are no comments on this page yet</p>
-                  ) }
-
-                  { authorizationStatus === AuthorizationStatus.Auth && id && <ReviewsForm id={+id} /> }
-
-                </section>
               </div>
             </div>
             <section className="property__map map">

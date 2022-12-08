@@ -4,7 +4,7 @@ import Header from '../../components/header/header';
 import CitiesList from '../../components/cities-list/cities-list';
 import CitiesMap from '../../components/cities-map/cities-map';
 import CitiesPlaces from '../../components/cities-places/cities-places';
-import CitiesNoPlaces from '../../components/cities-no-places/cities-no-paces';
+import CitiesNoPlaces from '../../components/cities-no-places/cities-no-places';
 import Loader from '../../components/loader/loader';
 
 import { Room } from '../../types/types';

@@ -4,7 +4,7 @@ import leaflet, { LayerGroup } from 'leaflet';
 import useMap from '../../hooks/use-map/use-map';
 
 import { Location } from '../../types/types';
-import { URL_MARKER_CURRENT, URL_MARKER_DEFAULT } from '../../consts';
+import { URL_MARKER_CURRENT, URL_MARKER_DEFAULT } from '../../const';
 
 type MapProps = {
   city: Location;
@@ -79,6 +79,7 @@ function Map({city, points, selectedPoint} : MapProps) {
     <div
       style={{height: '100%'}}
       ref={mapRef}
+      data-testid="map-element"
     >
     </div>
   );

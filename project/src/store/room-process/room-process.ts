@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { NameSpace } from '../../consts';
+import { NameSpace } from '../../const';
 import { RoomProcess } from '../../types/state';
 
 const initialState: RoomProcess = {

@@ -40,7 +40,7 @@ function CitiesMap ({currentCityRooms}: CitiesMapType) {
   }, [currentCityRooms]);
 
   return (
-    <div className="cities__right-section">
+    <div data-testid="cities-map-element" className="cities__right-section">
       <section className="cities__map map">
         { currentCityRooms && currentCityLocation && <Map city={currentCityLocation} points={mapPoints} selectedPoint={activeRoomLocation} /> }
       </section>

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { NameSpace } from '../../consts';
+import { NameSpace } from '../../const';
 import { DataProcess } from '../../types/state';
 import { fetchRooms, fetchRoomById, fetchCommentsInRoomById, fetchNearbyInRoomById, postCommentInRoomById } from '../api-actions';
 
@@ -13,7 +13,6 @@ const initialState: DataProcess = {
   isRoomsLoading: false,
   isRoomByIdLoading: false,
   isFormLoading: false,
-  errorFromServer: null,
 };
 
 export const dataProcess = createSlice({
