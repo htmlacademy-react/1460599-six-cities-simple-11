@@ -16,16 +16,19 @@ function Map({city, points, selectedPoint} : MapProps) {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
+  const MARKER_WIDTH = 28;
+  const MARKER_HEIGHT = 40;
+
   const defaultCustomIcon = leaflet.icon({
     iconUrl: URL_MARKER_DEFAULT,
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
+    iconSize: [MARKER_WIDTH, MARKER_HEIGHT],
+    iconAnchor: [MARKER_WIDTH / 2, MARKER_HEIGHT],
   });
 
   const currentCustomIcon = leaflet.icon({
     iconUrl: URL_MARKER_CURRENT,
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
+    iconSize: [MARKER_WIDTH, MARKER_HEIGHT],
+    iconAnchor: [MARKER_WIDTH / 2, MARKER_HEIGHT],
   });
 
   useEffect(() => {

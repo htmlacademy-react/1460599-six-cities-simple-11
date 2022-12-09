@@ -1,5 +1,6 @@
 import { SyntheticEvent, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import Header from '../../components/header/header';
 import { AppRoute, AuthorizationStatus, Cities } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -22,9 +23,19 @@ function LoginScreen() {
   const email = useRef<HTMLInputElement | null>(null);
   const password = useRef<HTMLInputElement | null>(null);
 
+  const validatePassword = () => {
+    if (password.current?.value.search(/[0-9]/) === -1) { return false; }
+    if (password.current?.value.search(/[a-zA-Z]/) === -1) { return false; }
+    return true;
+  };
+
   const handleFormSubmit = (evt: SyntheticEvent<HTMLFormElement>) => {
     evt.preventDefault();
     if (email.current !== null && password.current !== null) {
+      if (!validatePassword()) {
+        toast.warn('The password must contain at least one letter and one number.');
+        return;
+      }
       dispatch(loginAction({
         login: email.current.value,
         password: password.current.value

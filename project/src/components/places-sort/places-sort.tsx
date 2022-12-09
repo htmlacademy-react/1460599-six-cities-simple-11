@@ -38,7 +38,7 @@ function PlacesSort() {
           >
             {option}
           </li>
-        ))};
+        ))}
       </ul>
     </form>
   );
