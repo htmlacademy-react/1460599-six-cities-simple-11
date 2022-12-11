@@ -11,48 +11,44 @@ import { dropUserEmail, saveUserEmail } from '../services/user-email';
 import { CommentData, CommentDataWithId } from '../types/comment-data.js';
 
 export const fetchRooms = createAsyncThunk<Room[], undefined, {
-  dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'data/fetchRooms',
-  async (_arg, {dispatch, extra: api}) => {
+  async (_arg, {extra: api}) => {
     const {data} = await api.get<Room[]>(APIRoute.Hotels);
     return data;
   },
 );
 
 export const fetchRoomById = createAsyncThunk<Room | null, number, {
-  dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'data/fetchRoomById',
-  async (id, {dispatch, extra: api}) => {
+  async (id, {extra: api}) => {
     const {data} = await api.get<Room | null>(`${APIRoute.Hotels}/${id}`);
     return data;
   },
 );
 
 export const fetchNearbyInRoomById = createAsyncThunk<Room[], number, {
-  dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'data/fetchRoomByIdNearbyAction',
-  async (id, {dispatch, extra: api}) => {
+  async (id, {extra: api}) => {
     const {data} = await api.get<Room[]>(`${APIRoute.Hotels}/${id}/nearby`);
     return data;
   },
 );
 
 export const fetchCommentsInRoomById = createAsyncThunk<Comment[], number, {
-  dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'data/fetchRoomByIdComments',
-  async (id, {dispatch, extra: api}) => {
+  async (id, {extra: api}) => {
     const {data} = await api.get<Comment[]>(`${APIRoute.Comments}/${id}`);
     return data;
   },
@@ -71,12 +67,11 @@ export const postCommentInRoomById = createAsyncThunk<void, CommentDataWithId, {
 );
 
 export const checkAuthAction = createAsyncThunk<void, undefined, {
-  dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'user/checkAuth',
-  async (_arg, {dispatch, extra: api}) => {
+  async (_arg, {extra: api}) => {
     await api.get(APIRoute.Login);
   },
 );
@@ -96,12 +91,11 @@ export const loginAction = createAsyncThunk<void, AuthData, {
 );
 
 export const logoutAction = createAsyncThunk<void, undefined, {
-  dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'user/logout',
-  async (_arg, {dispatch, extra: api}) => {
+  async (_arg, {extra: api}) => {
     await api.delete(APIRoute.Logout);
     dropToken();
     dropUserEmail();

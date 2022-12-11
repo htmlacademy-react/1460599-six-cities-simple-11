@@ -41,6 +41,11 @@ export enum SortOptions {
   TopRatedFirst = 'Top rated first',
 }
 
+export enum CommentLength {
+  Min = 50,
+  Max = 300
+}
+
 export const URL_MARKER_DEFAULT = 'img/pin.svg';
 
 export const URL_MARKER_CURRENT = 'img/pin-active.svg';

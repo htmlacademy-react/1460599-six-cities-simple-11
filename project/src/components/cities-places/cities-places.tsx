@@ -1,6 +1,5 @@
 import PlacesSort from '../places-sort/places-sort';
 import PlaceCardsList from '../place-cards-list/place-cards-list';
-import { useEffect, useState } from 'react';
 import { Room } from '../../types/types';
 import { SortOptions } from '../../const';
 import { useAppSelector } from '../../hooks';
@@ -13,27 +12,25 @@ type CitiesPlacesType = {
 function CitiesPlaces({currentCityRooms}: CitiesPlacesType) {
 
   const curretSortOption = useAppSelector(getCurrentSortOption);
-  const [sortedCurrentCityRooms, setSortedCurrentCityRooms] = useState<Room[]>([]);
+  let sortedCurrentCityRooms: Room[] = [];
 
-  useEffect(() => {
-    if (currentCityRooms) {
-      const arrayForSort = [...currentCityRooms];
-      switch (curretSortOption) {
-        case SortOptions.LowToHigh:
-          setSortedCurrentCityRooms([...arrayForSort.sort((a, b) => a.price - b.price)]);
-          break;
-        case SortOptions.HighToLow:
-          setSortedCurrentCityRooms([...arrayForSort.sort((a, b) => b.price - a.price)]);
-          break;
-        case SortOptions.TopRatedFirst:
-          setSortedCurrentCityRooms([...arrayForSort.sort((a, b) => b.rating - a.rating)]);
-          break;
-        default:
-          setSortedCurrentCityRooms([...arrayForSort]);
-          break;
-      }
+  if (currentCityRooms) {
+    const forSortRooms = [...currentCityRooms];
+    switch (curretSortOption) {
+      case SortOptions.LowToHigh:
+        sortedCurrentCityRooms = [...forSortRooms.sort((a, b) => a.price - b.price)];
+        break;
+      case SortOptions.HighToLow:
+        sortedCurrentCityRooms = [...forSortRooms.sort((a, b) => b.price - a.price)];
+        break;
+      case SortOptions.TopRatedFirst:
+        sortedCurrentCityRooms = [...forSortRooms.sort((a, b) => b.rating - a.rating)];
+        break;
+      default:
+        sortedCurrentCityRooms = [...forSortRooms];
+        break;
     }
-  }, [currentCityRooms, curretSortOption]);
+  }
 
   return (
     <section className="cities__places places">

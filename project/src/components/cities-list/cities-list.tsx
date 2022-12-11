@@ -14,17 +14,16 @@ function CitiesList() {
     dispatch(setSelectedCity(city));
   };
 
-  const CitiesArray = Object.values(Cities);
+  const cities = Object.values(Cities);
 
   return (
     <ul className="locations__list tabs__list">
-      { CitiesArray.map((city) => (
+      { cities.map((city) => (
         <li key={city} className="locations__item">
           <a
             className={`locations__item-link tabs__item ${city === currentCity ? 'tabs__item--active' : ''}`}
             href="##"
             onClick={(evt) => {handleCityClick(evt, city);}}
-            role="city-link"
           >
             <span>{city}</span>
           </a>
