@@ -1,8 +1,10 @@
-import { SyntheticEvent, useEffect, useState } from 'react';
+import React, { SyntheticEvent, useEffect, useState } from 'react';
+import Loader from '../loader/loader';
+import { CommentLength } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { postCommentInRoomById } from '../../store/api-actions';
 import { getIsFormLoading } from '../../store/data-process/selectors';
-import Loader from '../loader/loader';
+import { toast } from 'react-toastify';
 
 type ReviewsFormType = {
   id: number;
@@ -31,8 +33,8 @@ function ReviewsForm({id}: ReviewsFormType) {
 
   const formDataValidate = () => {
     if (reviewFormData.rating === 0) {return true;}
-    if (reviewFormData.comment.length < 50) {return true;}
-    if (reviewFormData.comment.length > 300) {return true;}
+    if (reviewFormData.comment.length < CommentLength.Min) {return true;}
+    if (reviewFormData.comment.length > CommentLength.Max) {return true;}
     return false;
   };
 
@@ -42,8 +44,12 @@ function ReviewsForm({id}: ReviewsFormType) {
 
   const handleSubmitButtonClick = (evt: SyntheticEvent<HTMLButtonElement>) => {
     evt.preventDefault();
-    dispatch(postCommentInRoomById({id, commentData: reviewFormData}));
-    setReviewFormData(initialReviewFormData);
+    setIsSumbitDisabled(true);
+    dispatch(postCommentInRoomById({id, commentData: reviewFormData}))
+      .unwrap()
+      .then(() => {setReviewFormData(initialReviewFormData);})
+      .catch(() => {toast.warn('Oh no! Review was not sent, please try again later :|');})
+      .finally(() => {setIsSumbitDisabled(false);});
   };
 
   const NUMBER_OF_STARS = 5;
@@ -57,7 +63,7 @@ function ReviewsForm({id}: ReviewsFormType) {
         { radioStars.map((star, index, arr) => {
           const starValue = arr.length - index;
           return (
-            <>
+            <React.Fragment key={starValue}>
               <input
                 className="form__rating-input visually-hidden"
                 name="rating"
@@ -66,13 +72,14 @@ function ReviewsForm({id}: ReviewsFormType) {
                 type="radio"
                 onChange={handleReviewFormOnchange}
                 checked={reviewFormData.rating === starValue}
+                disabled={isFormLoading}
               />
               <label htmlFor={`${starValue}-stars`} className="reviews__rating-label form__rating-label" title="perfect">
                 <svg className="form__star-image" width="37" height="33">
                   <use xlinkHref="#icon-star"></use>
                 </svg>
               </label>
-            </>
+            </React.Fragment>
           );
         }) }
 
@@ -85,6 +92,7 @@ function ReviewsForm({id}: ReviewsFormType) {
         placeholder="Tell how was your stay, what you like and what can be improved"
         onChange={handleReviewFormOnchange}
         value={reviewFormData.comment}
+        disabled={isFormLoading}
         data-testid="textarea-element"
       />
 

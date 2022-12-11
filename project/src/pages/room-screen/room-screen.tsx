@@ -10,7 +10,7 @@ import { fetchRoomById, fetchCommentsInRoomById, fetchNearbyInRoomById } from '.
 import { Location } from '../../types/types';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import Loader from '../../components/loader/loader';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import RoomInfo from '../../components/room-info/room-info';
 import { getCurrentRoom, getIsRoomByIdLoading } from '../../store/data-process/selectors';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
@@ -23,26 +23,25 @@ function RoomScreen() {
 
   const { id } = useParams();
   useEffect(() => {
-    if (id) {
+    let isMounted = true;
+
+    if (id && isMounted) {
       const numberId = +id;
       dispatch(fetchRoomById(numberId));
       dispatch(fetchNearbyInRoomById(numberId));
       dispatch(fetchCommentsInRoomById(numberId));
     }
+
+    return () => { isMounted = false; };
   }, [id]);
 
   const { room, nearby } = useAppSelector(getCurrentRoom);
 
-  const [mapPoints, setMapPoints] = useState<Location[]>([]);
-
-  useEffect(() => {
-    const points : Location[] = [];
-    nearby.forEach((roomItem) => points.push(roomItem.location));
-    if (room) {
-      points.push(room.location);
-    }
-    setMapPoints(points);
-  }, [nearby, room]);
+  const mapPoints: Location[] = [];
+  nearby.forEach((roomItem) => mapPoints.push(roomItem.location));
+  if (room) {
+    mapPoints.push(room.location);
+  }
 
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const MAX_PHOTOS_NUMBER = 6;

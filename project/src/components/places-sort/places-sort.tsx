@@ -17,7 +17,7 @@ function PlacesSort() {
     setIsOptionsOpened(false);
   };
 
-  const SortOptionsArray = Object.values(SortOptions);
+  const sortOptions = Object.values(SortOptions);
 
   return (
     <form className="places__sorting" action="#" method="get" data-testid="places-sort-element">
@@ -29,7 +29,7 @@ function PlacesSort() {
         </svg>
       </span>
       <ul className={`places__options places__options--custom ${isOptionsOpened ? 'places__options--opened' : ''}`}>
-        { SortOptionsArray.map((option) => (
+        { sortOptions.map((option) => (
           <li
             key={option}
             className={`places__option ${curretSortOption === option ? 'places__option--active' : ''} `}
